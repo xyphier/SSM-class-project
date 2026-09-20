@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chapter02.UserMapper">
+    <!--
+        namespace：命名空间，对应 Mapper 接口的全限定名
+        必须一致，否则 Mybatis 无法找到对应的接口方法
+        本文件只放 XML 方式的 6 个方法；注解方式的方法不在此处定义
+    -->
+
+    <!-- 1. 查询所有用户 -->
+    <select id="findAll" resultType="com.entity.User">
+        SELECT * FROM user
+    </select>
+
+    <!-- 2. 根据 ID 查询用户 -->
+    <select id="findById" parameterType="int" resultType="com.entity.User">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
+
+    <!-- 3. 新增用户
+         useGeneratedKeys="true" + keyProperty="id"：
+         插入后把数据库生成的自增主键回填到参数对象的 id 属性上 -->
+    <insert id="insert" parameterType="com.entity.User"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user(username, password, email)
+        VALUES(#{username}, #{password}, #{email})
+    </insert>
+
+    <!-- 4. 修改用户 -->
+    <update id="update" parameterType="com.entity.User">
+        UPDATE user
+        SET username = #{username},
+            password = #{password},
+            email    = #{email}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 5. 删除用户 -->
+    <delete id="delete" parameterType="int">
+        DELETE FROM user WHERE id = #{id}
+    </delete>
+
+    <!-- 6. 模糊查询（多参）
+         接口方法上用 @Param("username")/@Param("password") 命名后，
+         这里就可以用 #{username}/#{password} 按名字取值 -->
+    <select id="findByNameAndPassword" resultType="com.entity.User">
+        SELECT * FROM user
+        WHERE username LIKE CONCAT('%', #{username}, '%')
+          AND password LIKE CONCAT('%', #{password}, '%')
+    </select>
+
+    <!-- ════════════════════════════════════════════════════
+         以下 2 个是第3节课讲评用的演示语句
+         （对应老师发的 UserMapperAnnotationTest.java，
+          通过 sqlSession.selectList("com.chapter02.UserMapper.selectAll") 直接调用）
+         ════════════════════════════════════════════════════ -->
+
+    <!--
+        7. selectAll —— 演示 resultType 的局限
+           表里现在有 create_time / update_time 列（第3节课加的），
+           而实体属性叫 createTime / updateTime。
+           resultType 要求【列名 = 属性名】才能自动映射，
+           且本配置文件刻意关闭了驼峰映射（mapUnderscoreToCamelCase=false），
+           所以运行后这两个字段是 null —— 这就是第3节课要解决的问题：
+           方式一：SQL 别名 create_time AS createTime
+           方式二：改用 resultMap 手动定义映射关系（见 chapter03）
+    -->
+    <select id="selectAll" resultType="com.entity.User">
+        SELECT * FROM user
+    </select>
+
+    <!--
+        8. selectAllByVo —— 演示 resultType 可以映射到任意类（不必是实体类）
+           只查 username、email 两列，列名与 Vo 类属性名一致即可封装；
+           查询结果不需要和数据库表结构一一对应。
+    -->
+    <select id="selectAllByVo" resultType="com.entity.Vo">
+        SELECT username, email FROM user
+    </select>
+
+</mapper>

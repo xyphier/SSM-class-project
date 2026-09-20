@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 引入配置文件 -->
+    <properties resource="db.properties"/>
+
+    <!-- 全局参数设置 -->
+    <settings>
+        <!-- 驼峰命名自动映射：刻意关闭！
+             关闭后 create_time 列 → createTime 属性 不会自动映射，
+             用来复现老师讲评 resultType 局限性的演示（MybatisTest/AnnotationTest 里能看到 null）。
+             第3节课的 resultMap 就是解决这个问题的正规手段。 -->
+        <setting name="mapUnderscoreToCamelCase" value="false"/>
+        <!-- 控制台打印 SQL 语句 -->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+
+    <!-- 环境配置 -->
+    <environments default="development">
+        <environment id="development">
+            <!-- 事务管理器 -->
+            <transactionManager type="JDBC"/>
+            <!-- 数据源（POOLED：使用连接池） -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- 注册 Mapper -->
+    <mappers>
+        <!-- XML 语句所在文件；namespace 会自动绑定同名接口 com.chapter02.UserMapper，
+             该接口里注解方式的方法也随之生效 -->
+        <mapper resource="chapter02/UserMapper.xml"/>
+        <!-- 老师讲评用的纯注解接口（无 XML，SQL 全在注解里） -->
+        <mapper class="com.chapter02.UserMapperAnnotation"/>
+    </mappers>
+</configuration>

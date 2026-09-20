@@ -1,7 +1,6 @@
-package com.example;
+package com.chapter02;
 
-import com.example.entity.User;
-import com.example.mapper.UserMapper;
+import com.entity.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -13,7 +12,7 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- * Mybatis 测试类
+ * 第2节课测试类：Mybatis CRUD
  * 每个功能两个版本：XML 实现 / 注解实现
  * 右键方法名 -> Run 'testXxx()' 即可单独运行某个测试
  */
@@ -21,7 +20,7 @@ public class MybatisTest {
 
     /** 工具方法：打开 SqlSession */
     private SqlSession openSession() throws IOException {
-        InputStream is = Resources.getResourceAsStream("mybatis-config.xml");
+        InputStream is = Resources.getResourceAsStream("chapter02/mybatis-config.xml");
         SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(is);
         return factory.openSession();
     }

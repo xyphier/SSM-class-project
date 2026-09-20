@@ -1,6 +1,6 @@
-package com.example.mapper;
+package com.chapter02;
 
-import com.example.entity.User;
+import com.entity.User;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
@@ -11,9 +11,9 @@ import org.apache.ibatis.annotations.Update;
 import java.util.List;
 
 /**
- * 用户 Mapper 接口
+ * 第2节课：用户 Mapper 接口
  * 6 个 CRUD 功能分别用两种方式各实现一遍：
- *   1) XML 方式：SQL 写在 resources/mapper/UserMapper.xml 中
+ *   1) XML 方式：SQL 写在 resources/chapter02/UserMapper.xml 中
  *   2) 注解方式：SQL 用 @Select/@Insert/@Update/@Delete 注解直接写在方法上（方法名加 Anno 后缀）
  * 注意：同一个接口里两种方式是混用的，只要方法名（即 statement id）不重复就不会互相影响；
  * 如果同名方法在 XML 和注解里都定义，MyBatis 会抛出重复定义的异常。

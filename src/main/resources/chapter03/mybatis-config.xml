@@ -2,15 +2,20 @@
 <!DOCTYPE configuration
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--
+    第3节课独立配置：只注册 chapter03 的 Mapper
+    测试类里用 Resources.getResourceAsStream("chapter03/mybatis-config.xml") 加载
+-->
 <configuration>
-    <!-- 引入配置文件 -->
+    <!-- 引入配置文件（全项目共享，放 resources 根目录） -->
     <properties resource="db.properties"/>
 
     <!-- 全局参数设置 -->
     <settings>
-        <!-- 开启驼峰命名自动映射 -->
-        <setting name="mapUnderscoreToCamelCase" value="true"/>
-        <!-- 控制台打印 SQL 语句 -->
+        <!-- 驼峰映射保持关闭：create_time → createTime 故意不自动转换，
+             全部交给 resultMap 手动映射，才能体现第3节课 ResultMap 的意义 -->
+        <setting name="mapUnderscoreToCamelCase" value="false"/>
+        <!-- 控制台打印 SQL 语句（观察动态 SQL 拼接结果就靠它） -->
         <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>
 
@@ -29,8 +34,11 @@
         </environment>
     </environments>
 
-    <!-- 注册 Mapper -->
+    <!-- 注册 Mapper：
+         只需注册 XML；namespace 自动绑定接口 com.chapter03.UserMapper，
+         接口上的 @Select/@Results 注解方法也随之生效（@ResultMap("userResultMap")
+         正是靠这种同 namespace 绑定才能跨方式引用 XML 里的 ResultMap） -->
     <mappers>
-        <mapper resource="mapper/UserMapper.xml"/>
+        <mapper resource="chapter03/UserMapper.xml"/>
     </mappers>
 </configuration>

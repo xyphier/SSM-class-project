@@ -1,7 +1,6 @@
-package com.example;
+package com.chapter02;
 
-import com.example.entity.User;
-import com.example.mapper.UserMapper;
+import com.entity.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -12,8 +11,8 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- * 主程序入口 - 演示 MyBatis 各种查询用法
- * 可以直接右键 -> Run 'Main.main()' 运行，也可以用 mvn exec:java 运行
+ * 第2节课演示入口 - MyBatis 各种查询用法
+ * 可以直接右键 -> Run 'Main.main()' 运行
  */
 public class Main {
 
@@ -24,7 +23,7 @@ public class Main {
      * 初始化 SqlSessionFactory（只加载一次配置）
      */
     private static void initFactory() throws IOException {
-        InputStream is = Resources.getResourceAsStream("mybatis-config.xml");
+        InputStream is = Resources.getResourceAsStream("chapter02/mybatis-config.xml");
         if (is == null) {
             throw new IOException("找不到 mybatis-config.xml，请检查 resources 目录");
         }
