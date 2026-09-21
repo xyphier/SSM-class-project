@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chapter05.Chapter05EmpMapper">
+
+    <!-- 一名员工对应一个部门：用 association 封装 dept 对象。 -->
+    <resultMap id="empWithDeptMap" type="com.entity.Emp">
+        <id property="empno" column="empno"/>
+        <result property="ename" column="ename"/>
+        <result property="job" column="job"/>
+        <result property="mgr" column="mgr"/>
+        <result property="hiredate" column="hiredate"/>
+        <result property="sal" column="sal"/>
+        <result property="comm" column="comm"/>
+        <result property="deptno" column="emp_deptno"/>
+        <association property="dept" javaType="com.entity.Dept">
+            <id property="deptno" column="deptno"/>
+            <result property="dname" column="dname"/>
+            <result property="loc" column="loc"/>
+        </association>
+    </resultMap>
+
+    <select id="one2oneByXml" parameterType="int" resultMap="empWithDeptMap">
+        SELECT e.empno, e.ename, e.job, e.mgr, e.hiredate, e.sal, e.comm,
+               e.deptno AS emp_deptno, d.deptno, d.dname, d.loc
+        FROM emp e
+        LEFT JOIN dept d ON e.deptno = d.deptno
+        WHERE e.empno = #{empno}
+    </select>
+</mapper>
