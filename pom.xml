@@ -18,11 +18,32 @@
     </properties>
 
     <dependencies>
-        <!-- Mybatis -->
+        <!-- MyBatis-Plus 核心（已包含 MyBatis，不要再单独引入 MyBatis 以免版本冲突） -->
         <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis</artifactId>
-            <version>3.5.13</version>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-core</artifactId>
+            <version>3.5.17</version>
+        </dependency>
+
+        <!-- 第六章第二节课新增：分页、乐观锁等插件 API -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-extension</artifactId>
+            <version>3.5.17</version>
+        </dependency>
+
+        <!-- 第六章第二节课新增：为分页、防全表操作等插件提供 SQL 解析能力（JDK 8 版本） -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-jsqlparser-4.9</artifactId>
+            <version>3.5.17</version>
+        </dependency>
+
+        <!-- 第六章第二节课新增：MyBatis-Plus 插件运行时日志实现 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.36</version>
         </dependency>
 
         <!-- MySQL 驱动 -->
