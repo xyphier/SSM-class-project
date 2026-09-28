@@ -22,11 +22,48 @@
         </association>
     </resultMap>
 
+    <!-- 第二节课新增效果：一个员工拥有多个技能，使用 collection 封装 skills 集合。 -->
+    <resultMap id="empWithSkillsMap" type="com.entity.Emp">
+        <id property="empno" column="empno"/>
+        <result property="ename" column="ename"/>
+        <result property="job" column="job"/>
+        <result property="mgr" column="mgr"/>
+        <result property="hiredate" column="hiredate"/>
+        <result property="sal" column="sal"/>
+        <result property="comm" column="comm"/>
+        <result property="deptno" column="deptno"/>
+        <collection property="skills" ofType="com.entity.Skill">
+            <id property="id" column="skill_id"/>
+            <result property="name" column="skill_name"/>
+            <result property="description" column="skill_desc"/>
+        </collection>
+    </resultMap>
+
     <select id="one2oneByXml" parameterType="int" resultMap="empWithDeptMap">
         SELECT e.empno, e.ename, e.job, e.mgr, e.hiredate, e.sal, e.comm,
                e.deptno AS emp_deptno, d.deptno, d.dname, d.loc
         FROM emp e
         LEFT JOIN dept d ON e.deptno = d.deptno
         WHERE e.empno = #{empno}
+    </select>
+
+    <!-- 多名员工分别关联到各自的一个部门。 -->
+    <select id="many2oneByXml" resultMap="empWithDeptMap">
+        SELECT e.empno, e.ename, e.job, e.mgr, e.hiredate, e.sal, e.comm,
+               e.deptno AS emp_deptno, d.deptno, d.dname, d.loc
+        FROM emp e
+        LEFT JOIN dept d ON e.deptno = d.deptno
+        ORDER BY e.empno
+    </select>
+
+    <!-- 多对多：emp 与 skill 通过 emp_skill 中间表建立关系。 -->
+    <select id="many2manyByXml" parameterType="int" resultMap="empWithSkillsMap">
+        SELECT e.empno, e.ename, e.job, e.mgr, e.hiredate, e.sal, e.comm, e.deptno,
+               s.id AS skill_id, s.name AS skill_name, s.description AS skill_desc
+        FROM emp e
+        LEFT JOIN emp_skill es ON e.empno = es.empno
+        LEFT JOIN skill s ON es.skill_id = s.id
+        WHERE e.empno = #{empno}
+        ORDER BY s.id
     </select>
 </mapper>

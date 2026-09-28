@@ -1,6 +1,7 @@
 package com.entity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 员工实体，对应 emp 表。
@@ -17,6 +18,7 @@ public class Emp {
     private Double comm;
     private Integer deptno;
     private Dept dept;
+    private List<Skill> skills;
 
     public Integer getEmpno() { return empno; }
     public void setEmpno(Integer empno) { this.empno = empno; }
@@ -36,4 +38,6 @@ public class Emp {
     public void setDeptno(Integer deptno) { this.deptno = deptno; }
     public Dept getDept() { return dept; }
     public void setDept(Dept dept) { this.dept = dept; }
+    public List<Skill> getSkills() { return skills; }
+    public void setSkills(List<Skill> skills) { this.skills = skills; }
 }
